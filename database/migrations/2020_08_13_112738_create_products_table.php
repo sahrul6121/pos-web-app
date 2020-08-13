@@ -19,7 +19,7 @@ class CreateProductsTable extends Migration
             $table->bigInteger('creator_id');
             $table->bigInteger('category_id');
             $table->string('name');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->bigInteger('price');
             $table->integer('stock');
             $table->string('discount_percentage')->nullable();

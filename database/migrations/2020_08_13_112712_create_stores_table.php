@@ -18,7 +18,7 @@ class CreateStoresTable extends Migration
             $table->bigInteger('admin_id');
             $table->string('name');
             $table->string('address');
-            $table->string('logo');
+            $table->string('logo')->nullable();
             $table->timestamps();
         });
     }
