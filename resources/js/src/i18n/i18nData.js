@@ -88,6 +88,7 @@ export default {
     List: 'List',
     View: 'View',
     Edit: 'Edit',
+    Add: 'Add',
     UserSettings: 'User Settings',
 		Invoice: 'Invoice',
 		FAQ: 'FAQ',

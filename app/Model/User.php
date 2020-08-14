@@ -5,6 +5,7 @@ namespace App\Model;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -72,5 +73,14 @@ class User extends Authenticatable implements JWTSubject
     public function role()
     {
         return $this->hasOne(Role::class, 'id', 'role_id');
+    }
+
+    public function getAvatarAttribute($value)
+    {
+        if (! $value) {
+            return url('images/default-avatar.jpg');
+        }
+
+        return Storage::url($value);
     }
 }

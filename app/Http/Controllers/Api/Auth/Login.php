@@ -6,6 +6,7 @@ use App\Model\User;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Login as LoginForm;
+use App\Http\Resources\UserInfo;
 
 class Login extends Controller
 {
@@ -16,14 +17,14 @@ class Login extends Controller
         if (! $user) {
             return $this->failedResponse(
                 'User not found.',
-                401
+                200
             );
         }
 
         if (! $user->is_active) {
             return $this->failedResponse(
                 'User not active, please contact admin.',
-                422
+                200
             );
         }
 
@@ -32,14 +33,14 @@ class Login extends Controller
         if (! $token = auth('api')->attempt($credentials)) {
             return $this->failedResponse(
                 'Something wrong, try to login again.',
-                422
+                200
             );
         }
 
         return response()->json([
-            'user_id' => auth('api')->id(),
-            'token' => $token,
-            'token_type' => 'bearer',
+            'userData' => new UserInfo(auth('api')->user()),
+            'accessToken' => $token,
+            'tokenType' => 'bearer',
         ]);
     }
 

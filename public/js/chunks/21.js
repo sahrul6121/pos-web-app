@@ -1686,7 +1686,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -5990,14 +5989,6 @@ var render = function() {
             _vm._v(" "),
             _c("vs-spacer"),
             _vm._v(" "),
-            _c("i18n"),
-            _vm._v(" "),
-            _c("search-bar"),
-            _vm._v(" "),
-            _c("cart-drop-down"),
-            _vm._v(" "),
-            _c("notification-drop-down"),
-            _vm._v(" "),
             _c("profile-drop-down")
           ],
           1
@@ -6029,274 +6020,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "navbar-bookmarks flex items-center" }, [
-    _c(
-      "ul",
-      { staticClass: "vx-navbar__starred-pages" },
-      [
-        _c(
-          "draggable",
-          {
-            staticClass: "flex cursor-move",
-            attrs: { group: { name: "pinList" } },
-            model: {
-              value: _vm.starredPagesLimited,
-              callback: function($$v) {
-                _vm.starredPagesLimited = $$v
-              },
-              expression: "starredPagesLimited"
-            }
-          },
-          _vm._l(_vm.starredPagesLimited, function(page) {
-            return _c(
-              "li",
-              { key: page.url, staticClass: "starred-page" },
-              [
-                _c(
-                  "vx-tooltip",
-                  {
-                    attrs: {
-                      text: page.title,
-                      position: "bottom",
-                      delay: ".3s"
-                    }
-                  },
-                  [
-                    _c("feather-icon", {
-                      staticClass: "p-2 cursor-pointer",
-                      attrs: {
-                        svgClasses: ["h-6 w-6 stroke-current", _vm.textColor],
-                        icon: page.icon
-                      },
-                      on: {
-                        click: function($event) {
-                          _vm.$router.push(page.url).catch(function() {})
-                        }
-                      }
-                    })
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          }),
-          0
-        )
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _vm.starredPagesMore.length
-      ? _c(
-          "div",
-          { staticClass: "vx-navbar__starred-pages--more-dropdown" },
-          [
-            _c(
-              "vs-dropdown",
-              {
-                staticClass: "cursor-pointer",
-                attrs: { "vs-custom-content": "", "vs-trigger-click": "" }
-              },
-              [
-                _c("feather-icon", {
-                  staticClass: "cursor-pointer p-2",
-                  attrs: { icon: "ChevronDownIcon", svgClasses: "h-4 w-4" }
-                }),
-                _vm._v(" "),
-                _c("vs-dropdown-menu", [
-                  _c(
-                    "ul",
-                    { staticClass: "vx-navbar__starred-pages-more--list" },
-                    [
-                      _c(
-                        "draggable",
-                        {
-                          staticClass: "cursor-move",
-                          attrs: { group: { name: "pinList" } },
-                          model: {
-                            value: _vm.starredPagesMore,
-                            callback: function($$v) {
-                              _vm.starredPagesMore = $$v
-                            },
-                            expression: "starredPagesMore"
-                          }
-                        },
-                        _vm._l(_vm.starredPagesMore, function(page) {
-                          return _c(
-                            "li",
-                            {
-                              key: page.url,
-                              staticClass:
-                                "starred-page--more flex items-center cursor-pointer",
-                              on: {
-                                click: function($event) {
-                                  _vm.$router
-                                    .push(page.url)
-                                    .catch(function() {})
-                                }
-                              }
-                            },
-                            [
-                              _c("feather-icon", {
-                                staticClass: "ml-2 mr-1",
-                                attrs: {
-                                  icon: page.icon,
-                                  svgClasses: [
-                                    "h-5 w-5 stroke-current",
-                                    _vm.textColor
-                                  ]
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("span", { staticClass: "px-2 pt-2 pb-1" }, [
-                                _vm._v(_vm._s(page.title))
-                              ])
-                            ],
-                            1
-                          )
-                        }),
-                        0
-                      )
-                    ],
-                    1
-                  )
-                ])
-              ],
-              1
-            )
-          ],
-          1
-        )
-      : _vm._e(),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "bookmark-container" },
-      [
-        _c("feather-icon", {
-          staticClass: "cursor-pointer p-2",
-          attrs: {
-            icon: "StarIcon",
-            svgClasses: ["stoke-current text-warning", _vm.textColor]
-          },
-          on: {
-            click: function($event) {
-              $event.stopPropagation()
-              _vm.showBookmarkPagesDropdown = !_vm.showBookmarkPagesDropdown
-            }
-          }
-        }),
-        _vm._v(" "),
-        _vm.showBookmarkPagesDropdown
-          ? _c(
-              "div",
-              {
-                directives: [
-                  {
-                    name: "click-outside",
-                    rawName: "v-click-outside",
-                    value: _vm.outside,
-                    expression: "outside"
-                  }
-                ],
-                staticClass: "absolute bookmark-list w-1/3 xl:w-1/4 mt-4"
-              },
-              [
-                _c("vx-auto-suggest", {
-                  ref: "bookmarkAutoSuggest",
-                  attrs: {
-                    autoFocus: true,
-                    data: _vm.navbarSearchAndPinList,
-                    initalData: {
-                      pages: _vm.starredPagesLimited.concat(
-                        _vm.starredPagesMore
-                      )
-                    },
-                    searchLimit: 5,
-                    placeholder: "Explore Vuexy...",
-                    inputClassses: "w-full",
-                    "show-action": "",
-                    "show-pinned": "",
-                    hideGroupTitle: "",
-                    "background-overlay": ""
-                  },
-                  on: {
-                    input: _vm.hnd_search_query_update,
-                    selected: _vm.selected
-                  },
-                  scopedSlots: _vm._u(
-                    [
-                      {
-                        key: "pages",
-                        fn: function(ref) {
-                          var suggestion = ref.suggestion
-                          return [
-                            _c(
-                              "div",
-                              {
-                                staticClass: "flex items-center justify-between"
-                              },
-                              [
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass:
-                                      "flex items-end leading-none py-1"
-                                  },
-                                  [
-                                    _c("feather-icon", {
-                                      staticClass: "mr-4",
-                                      attrs: {
-                                        icon: suggestion.icon,
-                                        svgClasses: "h-5 w-5"
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c("span", { staticClass: "mt-1" }, [
-                                      _vm._v(_vm._s(suggestion.title))
-                                    ])
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c("feather-icon", {
-                                  attrs: {
-                                    icon: "StarIcon",
-                                    svgClasses: [
-                                      {
-                                        "text-warning": suggestion.is_bookmarked
-                                      },
-                                      "h-5 w-5 stroke-current mt-1"
-                                    ]
-                                  },
-                                  on: {
-                                    click: function($event) {
-                                      $event.stopPropagation()
-                                      return _vm.actionClicked(suggestion)
-                                    }
-                                  }
-                                })
-                              ],
-                              1
-                            )
-                          ]
-                        }
-                      }
-                    ],
-                    null,
-                    false,
-                    648118384
-                  )
-                })
-              ],
-              1
-            )
-          : _vm._e()
-      ],
-      1
-    )
-  ])
+  return _c("div", { staticClass: "navbar-bookmarks flex items-center" })
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -6832,7 +6556,7 @@ var render = function() {
                 _vm._v(_vm._s(_vm.activeUserInfo.displayName))
               ]),
               _vm._v(" "),
-              _c("small", [_vm._v("Available")])
+              _c("small", [_vm._v(_vm._s(_vm.activeUserInfo.userRoleName))])
             ]
           ),
           _vm._v(" "),
@@ -6883,100 +6607,6 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _c("span", { staticClass: "ml-2" }, [_vm._v("Profile")])
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "li",
-                      {
-                        staticClass:
-                          "flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white",
-                        on: {
-                          click: function($event) {
-                            _vm.$router.push("/apps/email").catch(function() {})
-                          }
-                        }
-                      },
-                      [
-                        _c("feather-icon", {
-                          attrs: { icon: "MailIcon", svgClasses: "w-4 h-4" }
-                        }),
-                        _vm._v(" "),
-                        _c("span", { staticClass: "ml-2" }, [_vm._v("Inbox")])
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "li",
-                      {
-                        staticClass:
-                          "flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white",
-                        on: {
-                          click: function($event) {
-                            _vm.$router.push("/apps/todo").catch(function() {})
-                          }
-                        }
-                      },
-                      [
-                        _c("feather-icon", {
-                          attrs: {
-                            icon: "CheckSquareIcon",
-                            svgClasses: "w-4 h-4"
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("span", { staticClass: "ml-2" }, [_vm._v("Tasks")])
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "li",
-                      {
-                        staticClass:
-                          "flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white",
-                        on: {
-                          click: function($event) {
-                            _vm.$router.push("/apps/chat").catch(function() {})
-                          }
-                        }
-                      },
-                      [
-                        _c("feather-icon", {
-                          attrs: {
-                            icon: "MessageSquareIcon",
-                            svgClasses: "w-4 h-4"
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("span", { staticClass: "ml-2" }, [_vm._v("Chat")])
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "li",
-                      {
-                        staticClass:
-                          "flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white",
-                        on: {
-                          click: function($event) {
-                            _vm.$router
-                              .push("/apps/eCommerce/wish-list")
-                              .catch(function() {})
-                          }
-                        }
-                      },
-                      [
-                        _c("feather-icon", {
-                          attrs: { icon: "HeartIcon", svgClasses: "w-4 h-4" }
-                        }),
-                        _vm._v(" "),
-                        _c("span", { staticClass: "ml-2" }, [
-                          _vm._v("Wish List")
-                        ])
                       ],
                       1
                     ),
@@ -9749,42 +9379,47 @@ __webpack_require__.r(__webpack_exports__);
     name: "Analytics",
     slug: "dashboard-analytics",
     i18n: "Analytics"
-  }, {
-    url: '/dashboard/ecommerce',
-    name: "eCommerce",
-    slug: "dashboard-ecommerce",
-    i18n: "eCommerce"
-  }]
+  } //   {
+  //     url: '/dashboard/ecommerce',
+  //     name: "eCommerce",
+  //     slug: "dashboard-ecommerce",
+  //     i18n: "eCommerce",
+  //   },
+  ]
 }, {
   header: "Apps",
   icon: "PackageIcon",
   i18n: "Apps",
-  items: [{
-    url: "/apps/email",
-    name: "Email",
-    slug: "email",
-    icon: "MailIcon",
-    i18n: "Email"
-  }, {
-    url: "/apps/chat",
-    name: "Chat",
-    slug: "chat",
-    icon: "MessageSquareIcon",
-    i18n: "Chat"
-  }, {
-    url: "/apps/todo",
-    name: "Todo",
-    slug: "todo",
-    icon: "CheckSquareIcon",
-    i18n: "Todo"
-  }, {
-    url: "/apps/calendar/vue-simple-calendar",
-    name: "Calendar",
-    slug: "calendar-simple-calendar",
-    icon: "CalendarIcon",
-    tagColor: "success",
-    i18n: "Calendar"
-  }, {
+  items: [//   {
+  //     url: "/apps/email",
+  //     name: "Email",
+  //     slug: "email",
+  //     icon: "MailIcon",
+  //     i18n: "Email",
+  //   },
+  //   {
+  //     url: "/apps/chat",
+  //     name: "Chat",
+  //     slug: "chat",
+  //     icon: "MessageSquareIcon",
+  //     i18n: "Chat",
+  //   },
+  //   {
+  //     url: "/apps/todo",
+  //     name: "Todo",
+  //     slug: "todo",
+  //     icon: "CheckSquareIcon",
+  //     i18n: "Todo",
+  //   },
+  //   {
+  //     url: "/apps/calendar/vue-simple-calendar",
+  //     name: "Calendar",
+  //     slug: "calendar-simple-calendar",
+  //     icon: "CalendarIcon",
+  //     tagColor: "success",
+  //     i18n: "Calendar",
+  //   },
+  {
     url: null,
     name: "eCommerce",
     icon: "ShoppingCartIcon",
@@ -9830,594 +9465,719 @@ __webpack_require__.r(__webpack_exports__);
       name: "Edit",
       slug: "app-user-edit",
       i18n: "Edit"
+    }, {
+      url: '/apps/user/user-add',
+      name: "Add",
+      slug: "app-user-add",
+      i18n: "Add"
     }]
   }]
-}, {
-  header: "UI",
-  icon: "LayersIcon",
-  i18n: "UI",
-  items: [{
-    url: null,
-    name: "Data List",
-    tag: "new",
-    tagColor: "primary",
-    icon: "ListIcon",
-    i18n: "DataList",
-    submenu: [{
-      url: '/ui-elements/data-list/list-view',
-      name: "List View",
-      slug: "data-list-list-view",
-      i18n: "ListView"
-    }, {
-      url: '/ui-elements/data-list/thumb-view',
-      name: "Thumb View",
-      slug: "data-list-thumb-view",
-      i18n: "ThumbView"
-    }]
-  }, {
-    url: null,
-    name: "Grid",
-    icon: "LayoutIcon",
-    i18n: "Grid",
-    submenu: [{
-      url: '/ui-elements/grid/vuesax',
-      name: "Vuesax",
-      slug: "grid-vuesax",
-      i18n: "Vuesax"
-    }, {
-      url: '/ui-elements/grid/tailwind',
-      name: "Tailwind",
-      slug: "grid-tailwind",
-      i18n: "Tailwind"
-    }]
-  }, {
-    url: "/ui-elements/colors",
-    name: "Colors",
-    slug: "colors",
-    icon: "DropletIcon",
-    i18n: "Colors"
-  }, {
-    url: null,
-    name: "Card",
-    icon: "CreditCardIcon",
-    i18n: "Card",
-    submenu: [{
-      url: '/ui-elements/card/basic',
-      name: "Basic",
-      slug: "basic-cards",
-      i18n: "Basic"
-    }, {
-      url: '/ui-elements/card/statistics',
-      name: "Statistics",
-      slug: "statistics-cards",
-      i18n: "Statistics"
-    }, {
-      url: '/ui-elements/card/analytics',
-      name: "Analytics",
-      slug: "analytics-cards",
-      i18n: "Analytics"
-    }, {
-      url: '/ui-elements/card/card-actions',
-      name: "Card Actions",
-      slug: "card-actions",
-      i18n: "CardActions"
-    }, {
-      url: '/ui-elements/card/card-colors',
-      name: "Card Colors",
-      slug: "card-colors",
-      i18n: "CardColors"
-    }]
-  }, {
-    url: null,
-    name: "Components",
-    icon: "ArchiveIcon",
-    i18n: "Components",
-    submenu: [{
-      url: '/components/alert',
-      name: "Alert",
-      slug: "component-alert",
-      i18n: "Alert"
-    }, {
-      url: '/components/avatar',
-      name: "Avatar",
-      slug: "component-avatar",
-      i18n: "Avatar"
-    }, {
-      url: '/components/breadcrumb',
-      name: "Breadcrumb",
-      slug: "component-breadcrumb",
-      i18n: "Breadcrumb"
-    }, {
-      url: '/components/button',
-      name: "Button",
-      slug: "component-button",
-      i18n: "Button"
-    }, {
-      url: '/components/button-group',
-      name: "Button Group",
-      slug: "component-button-group",
-      i18n: "ButtonGroup"
-    }, {
-      url: '/components/chip',
-      name: "Chip",
-      slug: "component-chip",
-      i18n: "Chip"
-    }, {
-      url: '/components/collapse',
-      name: "Collapse",
-      slug: "component-collapse",
-      i18n: "Collapse"
-    }, {
-      url: '/components/dialogs',
-      name: "Dialogs",
-      slug: "component-dialog",
-      i18n: "Dialogs"
-    }, {
-      url: '/components/divider',
-      name: "Divider",
-      slug: "component-divider",
-      i18n: "Divider"
-    }, {
-      url: '/components/dropdown',
-      name: "DropDown",
-      slug: "component-drop-down",
-      i18n: "DropDown"
-    }, {
-      url: '/components/list',
-      name: "List",
-      slug: "component-list",
-      i18n: "List"
-    }, {
-      url: '/components/loading',
-      name: "Loading",
-      slug: "component-loading",
-      i18n: "Loading"
-    }, {
-      url: '/components/navbar',
-      name: "Navbar",
-      slug: "component-navbar",
-      i18n: "Navbar"
-    }, {
-      url: '/components/notifications',
-      name: "Notifications",
-      slug: "component-notifications",
-      i18n: "Notifications"
-    }, {
-      url: '/components/pagination',
-      name: "Pagination",
-      slug: "component-pagination",
-      i18n: "Pagination"
-    }, {
-      url: '/components/popup',
-      name: "Popup",
-      slug: "component-popup",
-      i18n: "Popup"
-    }, {
-      url: '/components/progress',
-      name: "Progress",
-      slug: "component-progress",
-      i18n: "Progress"
-    }, {
-      url: '/components/sidebar',
-      name: "Sidebar",
-      slug: "component-sidebar",
-      i18n: "Sidebar"
-    }, {
-      url: '/components/slider',
-      name: "Slider",
-      slug: "component-slider",
-      i18n: "Slider"
-    }, {
-      url: '/components/tabs',
-      name: "Tabs",
-      slug: "component-tabs",
-      i18n: "Tabs"
-    }, {
-      url: '/components/tooltip',
-      name: "Tooltip",
-      slug: "component-tooltip",
-      i18n: "Tooltip"
-    }, {
-      url: '/components/upload',
-      name: "Upload",
-      slug: "component-upload",
-      i18n: "Upload"
-    }]
-  }, {
-    url: null,
-    name: "Extensions",
-    icon: "PlusCircleIcon",
-    i18n: "Extensions",
-    submenu: [{
-      url: '/extensions/select',
-      name: "Select",
-      icon: "PocketIcon",
-      slug: "extra-component-select",
-      i18n: "Select"
-    }, {
-      url: '/extensions/quill-editor',
-      name: "Quill Editor",
-      icon: "EditIcon",
-      slug: "extra-component-quill-editor",
-      i18n: "QuillEditor"
-    }, {
-      url: '/extensions/drag-and-drop',
-      name: "Drag & Drop",
-      icon: "DropletIcon",
-      slug: "extra-component-drag-and-drop",
-      i18n: "DragAndDrop"
-    }, {
-      url: '/extensions/datepicker',
-      name: "Datepicker",
-      icon: "CalendarIcon",
-      slug: "extra-component-datepicker",
-      i18n: "Datepicker"
-    }, {
-      url: '/extensions/datetime-picker',
-      name: "Datetime Picker",
-      icon: "ClockIcon",
-      slug: "extra-component-datetime-picker",
-      i18n: "DatetimePicker"
-    }, {
-      url: '/extensions/access-control',
-      name: "Access Control",
-      slug: "extra-component-access-control",
-      i18n: "AccessControl"
-    }, {
-      url: '/extensions/i18n',
-      name: "I18n",
-      slug: "extra-component-i18n",
-      i18n: "I18n"
-    }, {
-      url: '/extensions/carousel',
-      name: "Carousel",
-      icon: "LayersIcon",
-      slug: "extra-component-carousel",
-      i18n: "Carousel"
-    }, {
-      url: '/extensions/clipboard',
-      name: "Clipboard",
-      icon: "CopyIcon",
-      slug: "extra-component-clipboard",
-      i18n: "Clipboard"
-    }, {
-      url: '/extensions/context-menu',
-      name: "Context Menu",
-      icon: "MoreHorizontalIcon",
-      slug: "extra-component-context-menu",
-      i18n: "ContextMenu"
-    }, {
-      url: '/extensions/star-ratings',
-      name: "Star Ratings",
-      icon: "StarIcon",
-      slug: "extra-component-star-ratings",
-      i18n: "StarRatings"
-    }, {
-      url: '/extensions/autocomplete',
-      name: "Autocomplete",
-      icon: "Edit3Icon",
-      slug: "extra-component-autocomplete",
-      i18n: "Autocomplete"
-    }, {
-      url: '/extensions/tree',
-      name: "Tree",
-      icon: "GitPullRequestIcon",
-      slug: "extra-component-tree",
-      i18n: "Tree"
-    }, // {
-    //   name: "Import/Export",
-    //   i18n: "Import/Export",
-    //   submenu: [
-    //   ]
-    // },
-    {
-      url: "/import-export/import",
-      name: "Import",
-      icon: "HomeIcon",
-      slug: "import",
-      i18n: "Import"
-    }, {
-      url: "/import-export/export",
-      name: "Export",
-      icon: "HomeIcon",
-      slug: "export",
-      i18n: "Export"
-    }, {
-      url: "/import-export/export-selected",
-      name: "Export Selected",
-      icon: "HomeIcon",
-      slug: "export-selected",
-      i18n: "ExportSelected"
-    }]
-  }]
-}, {
-  header: "Forms & Table",
-  icon: "Edit3Icon",
-  i18n: "FormsAndTable",
-  items: [{
-    url: null,
-    name: "Form Elements",
-    icon: "CopyIcon",
-    i18n: "FormElements",
-    submenu: [// {
-    //  url: '/forms/form-elements/select',
-    //  name: "Select",
-    //  slug: "form-element-select",
-    //  i18n: "Select",
-    // },
-    {
-      url: '/forms/form-elements/switch',
-      name: "Switch",
-      slug: "form-element-switch",
-      i18n: "Switch"
-    }, {
-      url: '/forms/form-elements/checkbox',
-      name: "Checkbox",
-      slug: "form-element-checkbox",
-      i18n: "Checkbox"
-    }, {
-      url: '/forms/form-elements/radio',
-      name: "Radio",
-      slug: "form-element-radio",
-      i18n: "Radio"
-    }, {
-      url: '/forms/form-elements/input',
-      name: "Input",
-      slug: "form-element-input",
-      i18n: "Input"
-    }, {
-      url: '/forms/form-elements/number-input',
-      name: "Number Input",
-      slug: "form-element-number-input",
-      i18n: "NumberInput"
-    }, {
-      url: '/forms/form-elements/textarea',
-      name: "Textarea",
-      slug: "form-element-textarea",
-      i18n: "Textarea"
-    }]
-  }, {
-    url: '/forms/form-layouts',
-    name: "Form Layouts",
-    icon: "PackageIcon",
-    slug: "forms-form-layouts",
-    i18n: "FormLayouts"
-  }, {
-    url: '/forms/form-wizard',
-    name: "Form Wizard",
-    icon: "PackageIcon",
-    slug: "extra-component-form-wizard",
-    i18n: "FormWizard"
-  }, {
-    url: '/forms/form-validation',
-    name: "Form Validation",
-    icon: "CheckCircleIcon",
-    slug: "extra-component-form-validation",
-    i18n: "FormValidation"
-  }, {
-    url: '/forms/form-input-group',
-    name: "Form Input Group",
-    icon: "MenuIcon",
-    slug: "extra-component-form-input-group",
-    i18n: "FormInputGroup"
-  }, {
-    url: "/ui-elements/table",
-    name: "Table",
-    slug: "table",
-    icon: "GridIcon",
-    i18n: "Table"
-  }, {
-    url: "/ui-elements/ag-grid-table",
-    name: "agGrid Table",
-    slug: "ag-grid-table",
-    icon: "GridIcon",
-    i18n: "agGridTable"
-  }]
-}, {
-  header: "Pages",
-  icon: "FileIcon",
-  i18n: "Pages",
-  items: [{
-    url: '/pages/profile',
-    slug: 'page-profile',
-    name: "Profile",
-    icon: "UserIcon",
-    i18n: "Profile"
-  }, {
-    url: '/pages/user-settings',
-    slug: 'page-user-settings',
-    name: "User Settings",
-    icon: "SettingsIcon",
-    i18n: "UserSettings"
-  }, {
-    url: '/pages/faq',
-    slug: 'page-faq',
-    name: "FAQ",
-    icon: "HelpCircleIcon",
-    i18n: "FAQ"
-  }, {
-    url: '/pages/knowledge-base',
-    slug: 'page-knowledge-base',
-    name: "Knowledge Base",
-    icon: "InfoIcon",
-    i18n: "KnowledgeBase"
-  }, {
-    url: '/pages/search',
-    slug: 'page-search',
-    name: "Search",
-    icon: "SearchIcon",
-    i18n: "Search"
-  }, {
-    url: '/pages/invoice',
-    slug: 'page-invoice',
-    name: "Invoice",
-    icon: "InfoIcon",
-    i18n: "Invoice"
-  }, {
-    url: null,
-    name: "Authentication",
-    icon: "PieChartIcon",
-    i18n: "Authentication",
-    submenu: [{
-      url: '/pages/login',
-      name: "Login",
-      slug: "pages-login",
-      i18n: "Login",
-      target: '_blank'
-    }, {
-      url: '/pages/register',
-      name: "Register",
-      slug: "pages-register",
-      i18n: "Register",
-      target: '_blank'
-    }, {
-      url: '/pages/forgot-password',
-      name: "Forgot Password",
-      slug: "pages-forgot-password",
-      i18n: "ForgotPassword",
-      target: '_blank'
-    }, {
-      url: '/pages/reset-password',
-      name: "Reset Password",
-      slug: "pages-reset-password",
-      i18n: "ResetPassword",
-      target: '_blank'
-    }, {
-      url: '/pages/lock-screen',
-      name: "Lock Screen",
-      slug: "pages-lock-screen",
-      i18n: "LockScreen",
-      target: '_blank'
-    }]
-  }, {
-    url: null,
-    name: "Miscellaneous",
-    icon: "CoffeeIcon",
-    i18n: "Miscellaneous",
-    submenu: [{
-      url: '/pages/not-authorized',
-      name: "Not Authorized",
-      slug: "page-not-authorized",
-      icon: "XCircleIcon",
-      i18n: "NotAuthorized",
-      target: '_blank'
-    }, {
-      url: '/pages/maintenance',
-      name: "Maintenance",
-      slug: "page-maintenance",
-      icon: "AnchorIcon",
-      i18n: "Maintenance",
-      target: '_blank'
-    }, {
-      url: '/pages/comingsoon',
-      slug: 'page-coming-soon',
-      name: "Coming Soon",
-      icon: "ClockIcon",
-      i18n: "ComingSoon",
-      target: '_blank'
-    }, {
-      url: '/pages/error-404',
-      name: "404",
-      slug: "page-error-404",
-      i18n: "404",
-      target: '_blank'
-    }, {
-      url: '/pages/error-500',
-      name: "500",
-      slug: "page-error-500",
-      i18n: "500",
-      target: '_blank'
-    }]
-  }]
-}, {
-  header: "Charts & Maps",
-  icon: "PieChartIcon",
-  i18n: "ChartsAndMaps",
-  items: [{
-    url: null,
-    name: "Charts",
-    icon: "PieChartIcon",
-    tag: '3',
-    tagColor: 'success',
-    i18n: "Charts",
-    submenu: [{
-      url: '/charts-and-maps/charts/apex-charts',
-      name: "Apex Charts",
-      slug: "extra-component-charts-apex-charts",
-      i18n: "ApexCharts"
-    }, {
-      url: '/charts-and-maps/charts/chartjs',
-      name: "chartjs",
-      slug: "extra-component-charts-chartjs",
-      i18n: "chartjs"
-    }, {
-      url: '/charts-and-maps/charts/echarts',
-      name: "echarts",
-      slug: "extra-component-charts-echarts",
-      i18n: "echarts"
-    }]
-  }, {
-    url: '/charts-and-maps/maps/google-map',
-    name: "Google Map",
-    icon: "MapIcon",
-    slug: "extra-component-maps-google-map",
-    i18n: "GoogleMap"
-  }]
-}, {
-  header: "Others",
-  icon: "MoreHorizontalIcon",
-  i18n: "Others",
-  items: [{
-    url: null,
-    name: "Menu Levels",
-    icon: "MenuIcon",
-    i18n: "MenuLevels",
-    submenu: [{
-      url: null,
-      name: "Menu Level 2.1",
-      i18n: "MenuLevel2p1"
-    }, {
-      url: null,
-      name: "Menu Level 2.2",
-      i18n: "MenuLevel2p2",
-      submenu: [{
-        url: null,
-        name: "Menu Level 3.1",
-        i18n: "MenuLevel3p1"
-      }, {
-        url: null,
-        name: "Menu Level 3.2",
-        i18n: "MenuLevel3p2"
-      }]
-    }]
-  }, {
-    url: null,
-    name: "Disabled Menu",
-    icon: "EyeOffIcon",
-    i18n: "DisabledMenu",
-    isDisabled: true
-  }, {
-    url: null,
-    name: "Support",
-    icon: "SmileIcon",
-    i18n: "Support",
-    submenu: [{
-      url: 'https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/documentation/',
-      name: "Documentation",
-      icon: "BookOpenIcon",
-      slug: "external",
-      i18n: "Documentation",
-      target: "_blank"
-    }, {
-      url: 'https://pixinvent.ticksy.com/',
-      name: "Raise Support",
-      icon: "LifeBuoyIcon",
-      slug: "external",
-      i18n: "RaiseSupport",
-      target: "_blank"
-    }]
-  }]
-}]);
+} //   {
+//     header: "UI",
+//     icon: "LayersIcon",
+//     i18n: "UI",
+//     items: [
+//       {
+//         url: null,
+//         name: "Data List",
+//         tag: "new",
+//         tagColor: "primary",
+//         icon: "ListIcon",
+//         i18n: "DataList",
+//         submenu: [
+//           {
+//             url: '/ui-elements/data-list/list-view',
+//             name: "List View",
+//             slug: "data-list-list-view",
+//             i18n: "ListView",
+//           },
+//           {
+//             url: '/ui-elements/data-list/thumb-view',
+//             name: "Thumb View",
+//             slug: "data-list-thumb-view",
+//             i18n: "ThumbView",
+//           },
+//         ]
+//       },
+//       {
+//         url: null,
+//         name: "Grid",
+//         icon: "LayoutIcon",
+//         i18n: "Grid",
+//         submenu: [
+//           {
+//             url: '/ui-elements/grid/vuesax',
+//             name: "Vuesax",
+//             slug: "grid-vuesax",
+//             i18n: "Vuesax",
+//           },
+//           {
+//             url: '/ui-elements/grid/tailwind',
+//             name: "Tailwind",
+//             slug: "grid-tailwind",
+//             i18n: "Tailwind",
+//           },
+//         ]
+//       },
+//       {
+//         url: "/ui-elements/colors",
+//         name: "Colors",
+//         slug: "colors",
+//         icon: "DropletIcon",
+//         i18n: "Colors",
+//       },
+//       {
+//         url: null,
+//         name: "Card",
+//         icon: "CreditCardIcon",
+//         i18n: "Card",
+//         submenu: [
+//           {
+//             url: '/ui-elements/card/basic',
+//             name: "Basic",
+//             slug: "basic-cards",
+//             i18n: "Basic",
+//           },
+//           {
+//             url: '/ui-elements/card/statistics',
+//             name: "Statistics",
+//             slug: "statistics-cards",
+//             i18n: "Statistics",
+//           },
+//           {
+//             url: '/ui-elements/card/analytics',
+//             name: "Analytics",
+//             slug: "analytics-cards",
+//             i18n: "Analytics",
+//           },
+//           {
+//             url: '/ui-elements/card/card-actions',
+//             name: "Card Actions",
+//             slug: "card-actions",
+//             i18n: "CardActions",
+//           },
+//           {
+//             url: '/ui-elements/card/card-colors',
+//             name: "Card Colors",
+//             slug: "card-colors",
+//             i18n: "CardColors",
+//           }
+//         ]
+//       },
+//       {
+//         url: null,
+//         name: "Components",
+//         icon: "ArchiveIcon",
+//         i18n: "Components",
+//         submenu: [
+//           {
+//             url: '/components/alert',
+//             name: "Alert",
+//             slug: "component-alert",
+//             i18n: "Alert",
+//           },
+//           {
+//             url: '/components/avatar',
+//             name: "Avatar",
+//             slug: "component-avatar",
+//             i18n: "Avatar",
+//           },
+//           {
+//             url: '/components/breadcrumb',
+//             name: "Breadcrumb",
+//             slug: "component-breadcrumb",
+//             i18n: "Breadcrumb",
+//           },
+//           {
+//             url: '/components/button',
+//             name: "Button",
+//             slug: "component-button",
+//             i18n: "Button",
+//           },
+//           {
+//             url: '/components/button-group',
+//             name: "Button Group",
+//             slug: "component-button-group",
+//             i18n: "ButtonGroup",
+//           },
+//           {
+//             url: '/components/chip',
+//             name: "Chip",
+//             slug: "component-chip",
+//             i18n: "Chip",
+//           },
+//           {
+//             url: '/components/collapse',
+//             name: "Collapse",
+//             slug: "component-collapse",
+//             i18n: "Collapse",
+//           },
+//           {
+//             url: '/components/dialogs',
+//             name: "Dialogs",
+//             slug: "component-dialog",
+//             i18n: "Dialogs",
+//           },
+//           {
+//             url: '/components/divider',
+//             name: "Divider",
+//             slug: "component-divider",
+//             i18n: "Divider",
+//           },
+//           {
+//             url: '/components/dropdown',
+//             name: "DropDown",
+//             slug: "component-drop-down",
+//             i18n: "DropDown",
+//           },
+//           {
+//             url: '/components/list',
+//             name: "List",
+//             slug: "component-list",
+//             i18n: "List",
+//           },
+//           {
+//             url: '/components/loading',
+//             name: "Loading",
+//             slug: "component-loading",
+//             i18n: "Loading",
+//           },
+//           {
+//             url: '/components/navbar',
+//             name: "Navbar",
+//             slug: "component-navbar",
+//             i18n: "Navbar",
+//           },
+//           {
+//             url: '/components/notifications',
+//             name: "Notifications",
+//             slug: "component-notifications",
+//             i18n: "Notifications",
+//           },
+//           {
+//             url: '/components/pagination',
+//             name: "Pagination",
+//             slug: "component-pagination",
+//             i18n: "Pagination",
+//           },
+//           {
+//             url: '/components/popup',
+//             name: "Popup",
+//             slug: "component-popup",
+//             i18n: "Popup",
+//           },
+//           {
+//             url: '/components/progress',
+//             name: "Progress",
+//             slug: "component-progress",
+//             i18n: "Progress",
+//           },
+//           {
+//             url: '/components/sidebar',
+//             name: "Sidebar",
+//             slug: "component-sidebar",
+//             i18n: "Sidebar",
+//           },
+//           {
+//             url: '/components/slider',
+//             name: "Slider",
+//             slug: "component-slider",
+//             i18n: "Slider",
+//           },
+//           {
+//             url: '/components/tabs',
+//             name: "Tabs",
+//             slug: "component-tabs",
+//             i18n: "Tabs",
+//           },
+//           {
+//             url: '/components/tooltip',
+//             name: "Tooltip",
+//             slug: "component-tooltip",
+//             i18n: "Tooltip",
+//           },
+//           {
+//             url: '/components/upload',
+//             name: "Upload",
+//             slug: "component-upload",
+//             i18n: "Upload",
+//           },
+//         ]
+//       },
+//       {
+//         url: null,
+//         name: "Extensions",
+//         icon: "PlusCircleIcon",
+//         i18n: "Extensions",
+//         submenu: [
+//           {
+//             url: '/extensions/select',
+//             name: "Select",
+//             icon: "PocketIcon",
+//             slug: "extra-component-select",
+//             i18n: "Select",
+//           },
+//           {
+//             url: '/extensions/quill-editor',
+//             name: "Quill Editor",
+//             icon: "EditIcon",
+//             slug: "extra-component-quill-editor",
+//             i18n: "QuillEditor",
+//           },
+//           {
+//             url: '/extensions/drag-and-drop',
+//             name: "Drag & Drop",
+//             icon: "DropletIcon",
+//             slug: "extra-component-drag-and-drop",
+//             i18n: "DragAndDrop",
+//           },
+//           {
+//             url: '/extensions/datepicker',
+//             name: "Datepicker",
+//             icon: "CalendarIcon",
+//             slug: "extra-component-datepicker",
+//             i18n: "Datepicker",
+//           },
+//           {
+//             url: '/extensions/datetime-picker',
+//             name: "Datetime Picker",
+//             icon: "ClockIcon",
+//             slug: "extra-component-datetime-picker",
+//             i18n: "DatetimePicker",
+//           },
+//           {
+//             url: '/extensions/access-control',
+//             name: "Access Control",
+//             slug: "extra-component-access-control",
+//             i18n: "AccessControl",
+//           },
+//           {
+//             url: '/extensions/i18n',
+//             name: "I18n",
+//             slug: "extra-component-i18n",
+//             i18n: "I18n",
+//           },
+//           {
+//             url: '/extensions/carousel',
+//             name: "Carousel",
+//             icon: "LayersIcon",
+//             slug: "extra-component-carousel",
+//             i18n: "Carousel",
+//           },
+//           {
+//             url: '/extensions/clipboard',
+//             name: "Clipboard",
+//             icon: "CopyIcon",
+//             slug: "extra-component-clipboard",
+//             i18n: "Clipboard",
+//           },
+//           {
+//             url: '/extensions/context-menu',
+//             name: "Context Menu",
+//             icon: "MoreHorizontalIcon",
+//             slug: "extra-component-context-menu",
+//             i18n: "ContextMenu",
+//           },
+//           {
+//             url: '/extensions/star-ratings',
+//             name: "Star Ratings",
+//             icon: "StarIcon",
+//             slug: "extra-component-star-ratings",
+//             i18n: "StarRatings",
+//           },
+//           {
+//             url: '/extensions/autocomplete',
+//             name: "Autocomplete",
+//             icon: "Edit3Icon",
+//             slug: "extra-component-autocomplete",
+//             i18n: "Autocomplete",
+//           },
+//           {
+//             url: '/extensions/tree',
+//             name: "Tree",
+//             icon: "GitPullRequestIcon",
+//             slug: "extra-component-tree",
+//             i18n: "Tree",
+//           },
+//           // {
+//           //   name: "Import/Export",
+//           //   i18n: "Import/Export",
+//           //   submenu: [
+//           //   ]
+//           // },
+//           {
+//             url: "/import-export/import",
+//             name: "Import",
+//             icon: "HomeIcon",
+//             slug: "import",
+//             i18n: "Import"
+//           },
+//           {
+//             url: "/import-export/export",
+//             name: "Export",
+//             icon: "HomeIcon",
+//             slug: "export",
+//             i18n: "Export"
+//           },
+//           {
+//             url: "/import-export/export-selected",
+//             name: "Export Selected",
+//             icon: "HomeIcon",
+//             slug: "export-selected",
+//             i18n: "ExportSelected"
+//           }
+//         ]
+//       },
+//     ]
+//   },
+//   {
+//     header: "Forms & Table",
+//     icon: "Edit3Icon",
+//     i18n: "FormsAndTable",
+//     items: [
+//       {
+//         url: null,
+//         name: "Form Elements",
+//         icon: "CopyIcon",
+//         i18n: "FormElements",
+//         submenu: [
+//           // {
+//           //  url: '/forms/form-elements/select',
+//           //  name: "Select",
+//           //  slug: "form-element-select",
+//           //  i18n: "Select",
+//           // },
+//           {
+//             url: '/forms/form-elements/switch',
+//             name: "Switch",
+//             slug: "form-element-switch",
+//             i18n: "Switch",
+//           },
+//           {
+//             url: '/forms/form-elements/checkbox',
+//             name: "Checkbox",
+//             slug: "form-element-checkbox",
+//             i18n: "Checkbox",
+//           },
+//           {
+//             url: '/forms/form-elements/radio',
+//             name: "Radio",
+//             slug: "form-element-radio",
+//             i18n: "Radio",
+//           },
+//           {
+//             url: '/forms/form-elements/input',
+//             name: "Input",
+//             slug: "form-element-input",
+//             i18n: "Input",
+//           },
+//           {
+//             url: '/forms/form-elements/number-input',
+//             name: "Number Input",
+//             slug: "form-element-number-input",
+//             i18n: "NumberInput",
+//           },
+//           {
+//             url: '/forms/form-elements/textarea',
+//             name: "Textarea",
+//             slug: "form-element-textarea",
+//             i18n: "Textarea",
+//           },
+//         ]
+//       },
+//       {
+//         url: '/forms/form-layouts',
+//         name: "Form Layouts",
+//         icon: "PackageIcon",
+//         slug: "forms-form-layouts",
+//         i18n: "FormLayouts",
+//       },
+//       {
+//         url: '/forms/form-wizard',
+//         name: "Form Wizard",
+//         icon: "PackageIcon",
+//         slug: "extra-component-form-wizard",
+//         i18n: "FormWizard",
+//       },
+//       {
+//         url: '/forms/form-validation',
+//         name: "Form Validation",
+//         icon: "CheckCircleIcon",
+//         slug: "extra-component-form-validation",
+//         i18n: "FormValidation",
+//       },
+//       {
+//         url: '/forms/form-input-group',
+//         name: "Form Input Group",
+//         icon: "MenuIcon",
+//         slug: "extra-component-form-input-group",
+//         i18n: "FormInputGroup",
+//       },
+//       {
+//         url: "/ui-elements/table",
+//         name: "Table",
+//         slug: "table",
+//         icon: "GridIcon",
+//         i18n: "Table",
+//       },
+//       {
+//         url: "/ui-elements/ag-grid-table",
+//         name: "agGrid Table",
+//         slug: "ag-grid-table",
+//         icon: "GridIcon",
+//         i18n: "agGridTable",
+//       },
+//     ]
+//   },
+//   {
+//     header: "Pages",
+//     icon: "FileIcon",
+//     i18n: "Pages",
+//     items: [
+//       {
+//         url: '/pages/profile',
+//         slug: 'page-profile',
+//         name: "Profile",
+//         icon: "UserIcon",
+//         i18n: "Profile",
+//       },
+//       {
+//         url: '/pages/user-settings',
+//         slug: 'page-user-settings',
+//         name: "User Settings",
+//         icon: "SettingsIcon",
+//         i18n: "UserSettings",
+//       },
+//       {
+//         url: '/pages/faq',
+//         slug: 'page-faq',
+//         name: "FAQ",
+//         icon: "HelpCircleIcon",
+//         i18n: "FAQ",
+//       },
+//       {
+//         url: '/pages/knowledge-base',
+//         slug: 'page-knowledge-base',
+//         name: "Knowledge Base",
+//         icon: "InfoIcon",
+//         i18n: "KnowledgeBase",
+//       },
+//       {
+//         url: '/pages/search',
+//         slug: 'page-search',
+//         name: "Search",
+//         icon: "SearchIcon",
+//         i18n: "Search",
+//       },
+//       {
+//         url: '/pages/invoice',
+//         slug: 'page-invoice',
+//         name: "Invoice",
+//         icon: "InfoIcon",
+//         i18n: "Invoice",
+//       },
+//       {
+//         url: null,
+//         name: "Authentication",
+//         icon: "PieChartIcon",
+//         i18n: "Authentication",
+//         submenu: [
+//           {
+//             url: '/pages/login',
+//             name: "Login",
+//             slug: "pages-login",
+//             i18n: "Login",
+//             target: '_blank',
+//           },
+//           {
+//             url: '/pages/register',
+//             name: "Register",
+//             slug: "pages-register",
+//             i18n: "Register",
+//             target: '_blank',
+//           },
+//           {
+//             url: '/pages/forgot-password',
+//             name: "Forgot Password",
+//             slug: "pages-forgot-password",
+//             i18n: "ForgotPassword",
+//             target: '_blank',
+//           },
+//           {
+//             url: '/pages/reset-password',
+//             name: "Reset Password",
+//             slug: "pages-reset-password",
+//             i18n: "ResetPassword",
+//             target: '_blank',
+//           },
+//           {
+//             url: '/pages/lock-screen',
+//             name: "Lock Screen",
+//             slug: "pages-lock-screen",
+//             i18n: "LockScreen",
+//             target: '_blank',
+//           },
+//         ]
+//       },
+//       {
+//         url: null,
+//         name: "Miscellaneous",
+//         icon: "CoffeeIcon",
+//         i18n: "Miscellaneous",
+//         submenu: [
+//           {
+//             url: '/pages/not-authorized',
+//             name: "Not Authorized",
+//             slug: "page-not-authorized",
+//             icon: "XCircleIcon",
+//             i18n: "NotAuthorized",
+//             target: '_blank',
+//           },
+//           {
+//             url: '/pages/maintenance',
+//             name: "Maintenance",
+//             slug: "page-maintenance",
+//             icon: "AnchorIcon",
+//             i18n: "Maintenance",
+//             target: '_blank',
+//           },
+//           {
+//             url: '/pages/comingsoon',
+//             slug: 'page-coming-soon',
+//             name: "Coming Soon",
+//             icon: "ClockIcon",
+//             i18n: "ComingSoon",
+//             target: '_blank',
+//           },
+//           {
+//             url: '/pages/error-404',
+//             name: "404",
+//             slug: "page-error-404",
+//             i18n: "404",
+//             target: '_blank',
+//           },
+//           {
+//             url: '/pages/error-500',
+//             name: "500",
+//             slug: "page-error-500",
+//             i18n: "500",
+//             target: '_blank',
+//           }
+//         ]
+//       },
+//     ]
+//   },
+//   {
+//     header: "Charts & Maps",
+//     icon: "PieChartIcon",
+//     i18n: "ChartsAndMaps",
+//     items: [
+//       {
+//         url: null,
+//         name: "Charts",
+//         icon: "PieChartIcon",
+//         tag: '3',
+//         tagColor: 'success',
+//         i18n: "Charts",
+//         submenu: [
+//           {
+//             url: '/charts-and-maps/charts/apex-charts',
+//             name: "Apex Charts",
+//             slug: "extra-component-charts-apex-charts",
+//             i18n: "ApexCharts",
+//           },
+//           {
+//             url: '/charts-and-maps/charts/chartjs',
+//             name: "chartjs",
+//             slug: "extra-component-charts-chartjs",
+//             i18n: "chartjs",
+//           },
+//           {
+//             url: '/charts-and-maps/charts/echarts',
+//             name: "echarts",
+//             slug: "extra-component-charts-echarts",
+//             i18n: "echarts",
+//           },
+//         ]
+//       },
+//       {
+//         url: '/charts-and-maps/maps/google-map',
+//         name: "Google Map",
+//         icon: "MapIcon",
+//         slug: "extra-component-maps-google-map",
+//         i18n: "GoogleMap",
+//       },
+//     ]
+//   },
+//   {
+//     header: "Others",
+//     icon: "MoreHorizontalIcon",
+//     i18n: "Others",
+//     items: [
+//       {
+//         url: null,
+//         name: "Menu Levels",
+//         icon: "MenuIcon",
+//         i18n: "MenuLevels",
+//         submenu: [
+//           {
+//             url: null,
+//             name: "Menu Level 2.1",
+//             i18n: "MenuLevel2p1",
+//           },
+//           {
+//             url: null,
+//             name: "Menu Level 2.2",
+//             i18n: "MenuLevel2p2",
+//             submenu: [
+//               {
+//                 url: null,
+//                 name: "Menu Level 3.1",
+//                 i18n: "MenuLevel3p1",
+//               },
+//               {
+//                 url: null,
+//                 name: "Menu Level 3.2",
+//                 i18n: "MenuLevel3p2",
+//               },
+//             ]
+//           },
+//         ]
+//       },
+//       {
+//         url: null,
+//         name: "Disabled Menu",
+//         icon: "EyeOffIcon",
+//         i18n: "DisabledMenu",
+//         isDisabled: true,
+//       },
+//       {
+//         url: null,
+//         name: "Support",
+//         icon: "SmileIcon",
+//         i18n: "Support",
+//         submenu: [
+//           {
+//             url: 'https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/documentation/',
+//             name: "Documentation",
+//             icon: "BookOpenIcon",
+//             slug: "external",
+//             i18n: "Documentation",
+//             target: "_blank"
+//           },
+//           {
+//             url: 'https://pixinvent.ticksy.com/',
+//             name: "Raise Support",
+//             icon: "LifeBuoyIcon",
+//             slug: "external",
+//             i18n: "RaiseSupport",
+//             target: "_blank"
+//           },
+//         ]
+//       },
+//     ]
+//   },
+]);
 
 /***/ }),
 
