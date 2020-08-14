@@ -60,7 +60,7 @@
     <div class="vx-row">
       <div class="vx-col w-full">
         <div class="mt-8 flex flex-wrap items-center justify-end">
-          <vs-button class="ml-auto mt-2" @click="save_changes" :disabled="!validateForm">Save</vs-button>
+          <vs-button class="ml-auto mt-2" @click="save_changes" :disabled="!validateForm">Next</vs-button>
           <vs-button class="ml-4 mt-2" type="border" color="warning" @click="reset_data">Reset</vs-button>
         </div>
       </div>
@@ -139,14 +139,15 @@ export default {
     },
 
     save_changes() {
-        this.$validator.validateAll().then(result => {
-            if(result) {
-                axios.post('api/v1/user/store', this.form)
-                .then(response => {
-                    alert('success')
-                })
-            }
-        })
+        // this.$validator.validateAll().then(result => {
+        //     if(result) {
+        //         axios.post('api/v1/user/store', this.form)
+        //         .then(response => {
+        //             alert('success')
+        //         })
+        //     }
+        // })
+        this.$emit('toStoreForm')
     },
 
     reset_data() {

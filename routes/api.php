@@ -28,4 +28,8 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('store', 'Api\User\Store')->name('api.user.store');
         Route::post('upload/avatar', 'Api\User\UploadAvatar')->name('api.user.upload.avatar');
     });
+
+    Route::group(['prefix' => 'store', 'middleware' => 'auth:api'], function () {
+        Route::post('upload/logo', 'Api\Store\UploadLogo')->name('api.store.upload.logo');
+    });
 });

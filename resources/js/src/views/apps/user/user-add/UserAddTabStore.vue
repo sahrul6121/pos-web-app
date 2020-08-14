@@ -14,7 +14,7 @@
     <div class="vx-row">
       <div class="vx-col w-full">
         <div class="flex items-start flex-col sm:flex-row">
-          <img :src="formData.logo" class="mr-8 rounded h-24 w-24" />
+          <img :src="logo" class="mr-8 rounded h-24 w-24" />
 
           <div>
             <input type="file" class="hidden" ref="update_avatar_input" @change="update_avatar" accept="image/*">
@@ -52,6 +52,7 @@
 
 <script>
 import vSelect from 'vue-select'
+import axios from '@/axios.js'
 
 export default {
   components: {
@@ -59,64 +60,80 @@ export default {
   },
   data() {
     return {
-        formData: {
-            logo: null,
+        logo: null,
+        errorMessage: {
+            ext: '',
+            size: '',
         },
-
         form: {
-            id: null,
+            logo: null,
             name: null,
             address: null,
         },
     }
   },
   computed: {
-    status_local: {
-      get() {
-        return { label: this.capitalize(this.form.status),  value: this.form.status  }
-      },
-      set(obj) {
-        this.form.status = obj.value
-      }
-    },
-    role_local: {
-      get() {
-        return { label: this.capitalize(this.form.role),  value: this.form.role  }
-      },
-      set(obj) {
-        this.form.role = obj.value
-      }
-    },
     validateForm() {
       return !this.errors.any()
-    }
+    },
   },
   methods: {
-    capitalize(str) {
-      return str.slice(0,1).toUpperCase() + str.slice(1,str.length)
-    },
-    save_changes() {
-      if(!this.validateForm) return
-
-      // Here will go your API call for updating data
-      // You can get data in "this.data_local"
-
-    },
     reset_data() {
       this.form = {
-        id: null,
-        username: null,
-        email: null,
-        password: null,
-        status: null,
-        role_slug: null,
+        logo: null,
+        name: null,
+        address: null,
       }
     },
-    update_avatar() {
-      // You can update avatar Here
-      // For reference you can check dataList example
-      // We haven't integrated it here, because data isn't saved in DB
-    }
+
+    save_changes() {
+        //
+    },
+
+    update_avatar(event) {
+      const input = event.target
+      const files = input.files[0]
+
+      if (this.isValidExt(files) && this.isValidSize(files)) {
+          const formData = new FormData()
+
+          formData.append('logo', files)
+          formData.append('_method', 'POST')
+
+          axios.post('api/v1/store/upload/logo', formData)
+          .then(response => {
+              this.logo = response.data.logo_url
+              this.form.logo = response.data.logo_path
+          })
+      }
+    },
+
+    isValidExt(image) {
+      const imgExt = ['JPEG', 'JPG', 'PNG']
+      const isValid = imgExt.includes(image.name.split('.').pop().toUpperCase())
+
+      if (!isValid) {
+        this.errorMessage.ext = 'File extension must JPG, JPEG, PNG.'
+      } else {
+        this.errorMessage.ext = ''
+      }
+
+      return isValid
+    },
+
+    isValidSize(image) {
+      let isValid = false
+
+      if (image.size >= 5000000) {
+        this.errorMessage.size = 'File size max 5mb.'
+        isValid = false
+      } else {
+        this.errorMessage.size = ''
+        isValid = true
+      }
+
+      return isValid
+    },
   },
 }
 </script>
