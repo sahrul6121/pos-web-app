@@ -71,7 +71,6 @@ require('vue-tour/dist/vue-tour.css')
 import VeeValidate from 'vee-validate'
 Vue.use(VeeValidate);
 
-
 // Google Maps
 import * as VueGoogleMaps from 'vue2-google-maps'
 Vue.use(VueGoogleMaps, {

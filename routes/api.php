@@ -21,4 +21,11 @@ Route::group(['prefix' => 'v1'], function () {
             Route::post('logout', 'Api\Auth\Logout')->name('api.auth.logout');
         });
     });
+
+    Route::get('roles', 'Api\Role\GetRoles')->name('api.get.roles');
+
+    Route::group(['prefix' => 'user', 'middleware' => 'auth:api'], function () {
+        Route::post('store', 'Api\User\Store')->name('api.user.store');
+        Route::post('upload/avatar', 'Api\User\UploadAvatar')->name('api.user.upload.avatar');
+    });
 });

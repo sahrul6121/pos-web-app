@@ -14,19 +14,16 @@
     <div class="vx-row">
       <div class="vx-col w-full">
         <div class="flex items-start flex-col sm:flex-row">
-          <img :src="formData.avatar" class="mr-8 rounded h-24 w-24" />
+          <img :src="avatar" class="mr-8 rounded h-24 w-24" />
 
           <div>
-            <!-- <p class="text-lg font-medium mb-2 mt-4 sm:mt-0">{{ data.name  }}</p> -->
-            <input type="file" class="hidden" ref="update_avatar_input" @change="update_avatar" accept="image/*">
+            <input v-validate="'required'" type="file" class="hidden" ref="update_avatar_input" @change="update_avatar" accept="image/*" name="avatar">
 
-            <!-- Toggle comment of below buttons as one for actual flow & currently shown is only for demo -->
-            <vs-button class="mr-4 mb-4">Change Avatar</vs-button>
-            <!-- <vs-button type="border" class="mr-4" @click="$refs.update_avatar_input.click()">Change Avatar</vs-button> -->
-
-            <!-- <vs-button type="border" color="danger">Remove Avatar</vs-button> -->
+            <vs-button class="mr-4 mb-4" @click="$refs.update_avatar_input.click()">Change Avatar</vs-button>
           </div>
         </div>
+
+        <span class="text-danger text-sm"  v-show="errors.has('avatar')">{{ errors.first('avatar') }}</span>
       </div>
     </div>
 
@@ -47,13 +44,13 @@
 
         <div class="mt-4">
           <label class="vs-input--label">Status</label>
-          <v-select v-model="form.status" :clearable="false" :options="statusOptions" v-validate="'required'" name="status" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+          <v-select v-model="selectedStatus" :clearable="true" :options="statusOptions" v-validate="'required'" name="status" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
           <span class="text-danger text-sm"  v-show="errors.has('status')">{{ errors.first('status') }}</span>
         </div>
 
         <div class="mt-4">
           <label class="vs-input--label">Role</label>
-          <v-select v-model="form.role_slug" :clearable="false" :options="roleOptions" v-validate="'required'" name="role" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+          <v-select v-model="selectedRole" :clearable="true" :options="roleOptions" v-validate="'required'" name="role" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
           <span class="text-danger text-sm"  v-show="errors.has('role')">{{ errors.first('role') }}</span>
         </div>
       </div>
@@ -73,6 +70,7 @@
 
 <script>
 import vSelect from 'vue-select'
+import axios from '@/axios.js'
 
 export default {
   components: {
@@ -80,75 +78,139 @@ export default {
   },
   data() {
     return {
-        formData: {
-            avatar: null,
-        },
-
+        avatar: null,
         form: {
-            id: null,
+            avatar: null,
             username: null,
             email: null,
             password: null,
             status: null,
-            role_slug: null,
+            role_id: null,
         },
-
         statusOptions: [
-            { label: "Active",  value: "true" },
-            { label: "Deactivated",  value: "false" },
+            { label: "Active",  value: true },
+            { label: "Deactivated",  value: false },
         ],
-        roleOptions: [
-            { label: "Admin",  value: "admin" },
-            { label: "Staff",  value: "staff" },
-        ],
+        roleOptions: [],
+        errorMessage: {
+            ext: '',
+            size: '',
+        },
+        selectedRole: null,
+        selectedStatus: null,
     }
   },
   computed: {
-    status_local: {
-      get() {
-        return { label: this.capitalize(this.form.status),  value: this.form.status  }
-      },
-      set(obj) {
-        this.form.status = obj.value
-      }
-    },
-    role_local: {
-      get() {
-        return { label: this.capitalize(this.form.role),  value: this.form.role  }
-      },
-      set(obj) {
-        this.form.role = obj.value
-      }
-    },
     validateForm() {
       return !this.errors.any()
-    }
+    },
+
+    selectedRoleValue() {
+        if (this.selectedRole != null) {
+            return this.selectedRole.value
+        }
+
+        return null
+    },
+
+    selectedStatusValue() {
+        if (this.selectedStatus != null) {
+            return this.selectedStatus.value
+        }
+
+        return null
+    },
+  },
+  watch: {
+    selectedRoleValue() {
+        this.form.role_id = this.selectedRoleValue
+    },
+
+    selectedStatusValue() {
+        this.form.status = this.selectedStatusValue
+    },
+  },
+  mounted() {
+    this.fetchRoles();
   },
   methods: {
     capitalize(str) {
       return str.slice(0,1).toUpperCase() + str.slice(1,str.length)
     },
+
     save_changes() {
-      if(!this.validateForm) return
-
-      // Here will go your API call for updating data
-      // You can get data in "this.data_local"
-
+        this.$validator.validateAll().then(result => {
+            if(result) {
+                axios.post('api/v1/user/store', this.form)
+                .then(response => {
+                    alert('success')
+                })
+            }
+        })
     },
+
     reset_data() {
+      this.avatar = null
       this.form = {
-        id: null,
+        avatar: null,
         username: null,
         email: null,
         password: null,
         status: null,
-        role_slug: null,
+        role_id: null,
       }
     },
-    update_avatar() {
-      // You can update avatar Here
-      // For reference you can check dataList example
-      // We haven't integrated it here, because data isn't saved in DB
+
+    update_avatar(event) {
+      const input = event.target
+      const files = input.files[0]
+
+      if (this.isValidExt(files) && this.isValidSize(files)) {
+          const formData = new FormData()
+
+          formData.append('avatar', files)
+          formData.append('_method', 'POST')
+
+          axios.post('api/v1/user/upload/avatar', formData)
+          .then(response => {
+              this.avatar = response.data.avatar_url
+              this.form.avatar = response.data.avatar_path
+          })
+      }
+    },
+
+    isValidExt(image) {
+      const imgExt = ['JPEG', 'JPG', 'PNG']
+      const isValid = imgExt.includes(image.name.split('.').pop().toUpperCase())
+
+      if (!isValid) {
+        this.errorMessage.ext = 'File extension must JPG, JPEG, PNG.'
+      } else {
+        this.errorMessage.ext = ''
+      }
+
+      return isValid
+    },
+
+    isValidSize(image) {
+      let isValid = false
+
+      if (image.size >= 5000000) {
+        this.errorMessage.size = 'File size max 5mb.'
+        isValid = false
+      } else {
+        this.errorMessage.size = ''
+        isValid = true
+      }
+
+      return isValid
+    },
+
+    fetchRoles() {
+        axios.get('api/v1/roles')
+        .then(response => {
+            this.roleOptions = response.data.data
+        })
     }
   },
 }
