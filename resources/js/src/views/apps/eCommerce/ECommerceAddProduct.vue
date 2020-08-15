@@ -90,7 +90,7 @@ export default {
         },
         statusOptions: [
             { label: "Available",  value: true },
-            { label: "Not Avaailable",  value: false },
+            { label: "Not Available",  value: false },
         ],
         errorMessage: {
             ext: '',

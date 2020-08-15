@@ -42,7 +42,15 @@ Route::group(['prefix' => 'v1'], function () {
     });
 
     Route::group(['prefix' => 'product', 'middleware' => 'auth:api'], function () {
+        Route::get('list', 'Api\Product\Index')->name('api.product.list');
         Route::post('upload/picture', 'Api\Product\UploadPicture')->name('api.product.upload.picture');
         Route::post('store', 'Api\Product\Store')->name('api.product.store');
+    });
+
+    Route::group(['prefix' => 'cart', 'middleware' => 'auth:api'], function () {
+        Route::get('list', 'Api\Cart\Index')->name('api.cart.list');
+        Route::post('add/product/{productId}', 'Api\Cart\AddProduct')->name('api.cart.add.product');
+        Route::post('remove/product/{productId}', 'Api\Cart\RemoveProduct')->name('api.cart.remove.product');
+        Route::post('decrease/product/{productId}', 'Api\Cart\DecreaseProduct')->name('api.cart.decrease.product');
     });
 });

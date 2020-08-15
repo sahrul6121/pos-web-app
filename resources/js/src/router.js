@@ -95,6 +95,21 @@ const router = new Router({
                         rule: 'staff'
                     },
                 },
+
+                {
+                    path: '/apps/eCommerce/list/product',
+                    name: 'eCommerce-list-product',
+                    component: () => import('@/views/apps/eCommerce/ECommerceProducts.vue'),
+                    meta: {
+                        breadcrumb: [
+                            { title: 'Home', url: '/' },
+                            { title: 'eCommerce', url: '/apps/eCommerce' },
+                            { title: 'List Product', active: true },
+                        ],
+                        pageTitle: 'List Product',
+                        rule: 'staff'
+                    },
+                },
         // =============================================================================
         // User Routes
         // =============================================================================
@@ -245,7 +260,7 @@ const router = new Router({
                             { title: 'Checkout', active: true },
                         ],
                         pageTitle: 'Checkout',
-                        rule: 'public'
+                        rule: 'staff'
                     }
                 },
                 /*

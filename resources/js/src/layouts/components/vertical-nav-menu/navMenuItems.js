@@ -107,6 +107,12 @@ export default [
             slug: "ecommerce-add-product",
             i18n: "Add Product",
           },
+          {
+            url: '/apps/eCommerce/list/product',
+            name: "List Product",
+            slug: "ecommerce-list-product",
+            i18n: "List Product",
+          },
         //   {
         //     url: '/apps/eCommerce/item/',
         //     name: "Item Details",
@@ -119,12 +125,12 @@ export default [
         //     slug: "ecommerce-wish-list",
         //     i18n: "WishList",
         //   },
-        //   {
-        //     url: '/apps/eCommerce/checkout',
-        //     name: "Checkout",
-        //     slug: "ecommerce-checkout",
-        //     i18n: "Checkout",
-        //   },
+          {
+            url: '/apps/eCommerce/checkout',
+            name: "Transaction",
+            slug: "ecommerce-transaction",
+            i18n: "Transaction",
+          },
         ]
       },
       {

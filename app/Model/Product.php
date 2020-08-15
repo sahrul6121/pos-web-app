@@ -61,4 +61,20 @@ class Product extends Model
     {
         return $this->hasOne(User::class, 'id', 'creator_id');
     }
+
+    /**
+     * Get product discount price
+     *
+     * @return int|null
+     */
+    public function getCurrentPriceAttribute()
+    {
+        if ($this->discount_percentage <= 0) {
+            return $this->price;
+        }
+
+        $discountPrice = $this->price * $this->discount_percentage / 100;
+
+        return $this->price - $discountPrice;
+    }
 }
