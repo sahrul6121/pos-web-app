@@ -18,6 +18,7 @@ export default new AclCreate({
     superadmin: new AclRule("super-admin").generate(),
     admin: new AclRule("admin").generate(),
     staff: new AclRule("staff").generate(),
+    adminstaff: new AclRule('admin').or('staff').generate(),
     public: new AclRule("staff").or("admin").or("super-admin").generate(),
   }
 })

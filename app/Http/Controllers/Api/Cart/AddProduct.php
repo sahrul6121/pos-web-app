@@ -47,9 +47,11 @@ class AddProduct extends Controller
 
     public function updateCartQuantity(int $productId)
     {
-        $cart = Cart::where('product_id', $productId)->first();
+        $cart = Cart::where('product_id', $productId)
+            ->where('is_checkedout', false)
+            ->first();
 
-        $cart->quantity += 1;
+        $cart->quantity = $cart->quantity + 1;
 
         $cart->save();
 

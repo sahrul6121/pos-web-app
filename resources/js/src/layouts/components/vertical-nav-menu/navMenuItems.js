@@ -113,6 +113,12 @@ export default [
             slug: "ecommerce-list-product",
             i18n: "List Product",
           },
+          {
+            url: '/apps/eCommerce/list/transaction',
+            name: "List Transaction",
+            slug: "ecommerce-list-transaction",
+            i18n: "List Transaction",
+          },
         //   {
         //     url: '/apps/eCommerce/item/',
         //     name: "Item Details",

@@ -110,6 +110,21 @@ const router = new Router({
                         rule: 'staff'
                     },
                 },
+
+                {
+                    path: '/apps/eCommerce/list/transaction',
+                    name: 'eCommerce-list-product',
+                    component: () => import('@/views/apps/eCommerce/ECommerceTransactions.vue'),
+                    meta: {
+                        breadcrumb: [
+                            { title: 'Home', url: '/' },
+                            { title: 'eCommerce', url: '/apps/eCommerce' },
+                            { title: 'List Transaction', active: true },
+                        ],
+                        pageTitle: 'List Transaction',
+                        rule: 'adminstaff'
+                    },
+                },
         // =============================================================================
         // User Routes
         // =============================================================================

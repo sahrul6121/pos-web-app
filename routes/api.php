@@ -56,6 +56,7 @@ Route::group(['prefix' => 'v1'], function () {
     });
 
     Route::group(['prefix' => 'transaction', 'middleware' => 'auth:api'], function () {
+        Route::get('list', 'Api\Transaction\Index')->name('api.transaction.list');
         Route::post('store', 'Api\Transaction\Store')->name('api.transaction.store');
     });
 });
