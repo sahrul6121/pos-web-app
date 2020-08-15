@@ -47,46 +47,26 @@
             </div>
 
             <!-- RIGHT COL -->
-            <div class="vx-col lg:w-1/3 w-full">
+            <div class="vx-col lg:w-1/3 w-full" v-if="cartDetails">
                 <vx-card>
-                    <p class="text-grey mb-3">Options</p>
-                    <div class="flex justify-between">
-                        <span class="font-semibold">Coupons</span>
-                        <span class="font-medium text-primary cursor-pointer">Apply</span>
-                    </div>
-
-                    <vs-divider />
-
                     <p class="font-semibold mb-3">Price Details</p>
                     <div class="flex justify-between mb-2">
-                        <span class="text-grey">Total MRP</span>
-                        <span>$598</span>
+                        <span class="text-grey">Total</span>
+                        <span>{{ cartDetails.total_price_formatted }}</span>
                     </div>
                     <div class="flex justify-between mb-2">
-                        <span class="text-grey">Bag Discount</span>
-                        <span class="text-success">-25$</span>
-                    </div>
-                    <div class="flex justify-between mb-2">
-                        <span class="text-grey">Estimated Tax</span>
-                        <span>$1.3</span>
-                    </div>
-                    <div class="flex justify-between mb-2">
-                        <span class="text-grey">EMI Eligibility</span>
-                        <a href="#" class="text-primary">Details</a>
-                    </div>
-                    <div class="flex justify-between mb-2">
-                        <span class="text-grey">Delivery Charges</span>
-                        <span class="text-success">Free</span>
+                        <span class="text-grey">Tax</span>
+                        <span>{{ cartDetails.tax_formatted }}</span>
                     </div>
 
                     <vs-divider />
 
                     <div class="flex justify-between font-semibold mb-3">
                         <span>Total</span>
-                        <span>$574.3</span>
+                        <span>{{ cartDetails.total_price_with_tax_formatted }}</span>
                     </div>
 
-                    <vs-button class="w-full" @click="$refs.checkoutWizard.nextTab()">PLACE ORDER</vs-button>
+                    <vs-button class="w-full" @click="addTransaction()">Add Transaction</vs-button>
                 </vx-card>
             </div>
         </div>
@@ -125,6 +105,7 @@ export default {
             paymentMethod: "debit-card",
             cvv: '',
             cartItems: [],
+            cartDetails: null,
         }
     },
     computed: {
@@ -134,6 +115,7 @@ export default {
     },
     mounted() {
         this.fetchCartItems()
+        this.fetchCartDetails()
     },
     methods: {
 
@@ -153,6 +135,7 @@ export default {
                         icon: 'icon-check'
                     })
                     this.fetchCartItems()
+                    this.fetchCartDetails()
                 })
             } else {
                 axios.post('api/v1/cart/decrease/product/' + item.product_id).then(response => {
@@ -164,6 +147,7 @@ export default {
                         icon: 'icon-check'
                     })
                     this.fetchCartItems()
+                    this.fetchCartDetails()
                 })
             }
         },
@@ -171,6 +155,12 @@ export default {
         fetchCartItems() {
             axios.get('api/v1/cart/list').then(response => {
                 this.cartItems = response.data.data
+            })
+        },
+
+        fetchCartDetails() {
+            axios.get('api/v1/cart/details').then(response => {
+                this.cartDetails = response.data.data
             })
         },
 
@@ -184,8 +174,35 @@ export default {
                     icon: 'icon-check'
                 })
                 this.fetchCartItems()
+                this.fetchCartDetails()
             })
-        }
+        },
+
+        addTransaction() {
+            let cartId = []
+
+            this.cartItems.forEach(cart => {
+                cartId.push(cart.id)
+            });
+
+            let form = this.cartDetails
+
+            form = Object.assign(form, {
+                carts: cartId,
+            });
+
+            axios.post('api/v1/transaction/store', form).then(response => {
+                this.$vs.notify({
+                    title: 'Success',
+                    text: 'Transaction success.',
+                    color: 'success',
+                    iconPack: 'feather',
+                    icon: 'icon-check'
+                })
+                this.fetchCartItems()
+                this.fetchCartDetails()
+            })
+        },
     },
     components: {
         ItemListView,

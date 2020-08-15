@@ -49,8 +49,13 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::group(['prefix' => 'cart', 'middleware' => 'auth:api'], function () {
         Route::get('list', 'Api\Cart\Index')->name('api.cart.list');
+        Route::get('details', 'Api\Cart\details')->name('api.cart.details');
         Route::post('add/product/{productId}', 'Api\Cart\AddProduct')->name('api.cart.add.product');
         Route::post('remove/product/{productId}', 'Api\Cart\RemoveProduct')->name('api.cart.remove.product');
         Route::post('decrease/product/{productId}', 'Api\Cart\DecreaseProduct')->name('api.cart.decrease.product');
+    });
+
+    Route::group(['prefix' => 'transaction', 'middleware' => 'auth:api'], function () {
+        Route::post('store', 'Api\Transaction\Store')->name('api.transaction.store');
     });
 });

@@ -2,10 +2,13 @@
 
 namespace App\Model;
 
+use App\Services\PriceDetails;
 use Illuminate\Database\Eloquent\Model;
 
 class Cart extends Model
 {
+    use PriceDetails;
+
     /**
      * The attributes that are mass assignable.
      *
