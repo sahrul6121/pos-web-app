@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api\User;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Avatar as AvatarForm;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\Avatar as AvatarForm;
 
 class UploadAvatar extends Controller
 {
@@ -16,7 +17,7 @@ class UploadAvatar extends Controller
     {
         $imageName = auth()->user()->name.Carbon::now()->format('dmY');
 
-        $hashedImageName = hash('sha256', $imageName);
+        $hashedImageName = Hash::make($imageName);
 
         $extension = $request->file('avatar')->extension();
 

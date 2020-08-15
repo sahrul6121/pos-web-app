@@ -38,4 +38,13 @@ class Store extends Model
     {
         return $this->hasMany(Product::class, 'store_id', 'id');
     }
+
+    public function getLogoAttribute($value)
+    {
+        if (! $value) {
+            return url('images/default-avatar.jpg');
+        }
+
+        return url($value);
+    }
 }

@@ -64,6 +64,38 @@ const router = new Router({
                 },
 
         // =============================================================================
+        // Store Routes
+        // =============================================================================
+                {
+                    path: '/apps/eCommerce/store-list',
+                    name: 'eCommerce-store',
+                    component: () => import('@/views/apps/eCommerce/ECommerceStore.vue'),
+                    meta: {
+                        breadcrumb: [
+                            { title: 'Home', url: '/' },
+                            { title: 'eCommerce', url: '/apps/eCommerce' },
+                            { title: 'Store', active: true },
+                        ],
+                        pageTitle: 'Store List',
+                        rule: 'superadmin'
+                    },
+                },
+
+                {
+                    path: '/apps/eCommerce/add/product',
+                    name: 'eCommerce-add-product',
+                    component: () => import('@/views/apps/eCommerce/ECommerceAddProduct.vue'),
+                    meta: {
+                        breadcrumb: [
+                            { title: 'Home', url: '/' },
+                            { title: 'eCommerce', url: '/apps/eCommerce' },
+                            { title: 'Add Product', active: true },
+                        ],
+                        pageTitle: 'Add Product',
+                        rule: 'staff'
+                    },
+                },
+        // =============================================================================
         // User Routes
         // =============================================================================
                 {
@@ -77,7 +109,22 @@ const router = new Router({
                             { title: 'List', active: true },
                         ],
                         pageTitle: 'User List',
-                        rule: 'public'
+                        rule: 'superadmin'
+                    },
+                },
+
+                {
+                    path: '/apps/user/staff-list',
+                    name: 'app-staff-list',
+                    component: () => import('@/views/apps/user/user-list/StaffList.vue'),
+                    meta: {
+                        breadcrumb: [
+                            { title: 'Home', url: '/' },
+                            { title: 'User' },
+                            { title: 'Staff List', active: true },
+                        ],
+                        pageTitle: 'Staff List',
+                        rule: 'admin'
                     },
                 },
 
@@ -92,7 +139,22 @@ const router = new Router({
                             { title: 'Add', active: true },
                         ],
                         pageTitle: 'User Add',
-                        rule: 'public'
+                        rule: 'superadmin'
+                    },
+                },
+
+                {
+                    path: '/apps/user/user-add-staff',
+                    name: 'app-user-add-staff',
+                    component: () => import('@/views/apps/user/user-add/UserAddStaff.vue'),
+                    meta: {
+                        breadcrumb: [
+                            { title: 'Home', url: '/' },
+                            { title: 'User' },
+                            { title: 'Add Staff', active: true },
+                        ],
+                        pageTitle: 'User Add Staff',
+                        rule: 'admin'
                     },
                 },
         // =============================================================================

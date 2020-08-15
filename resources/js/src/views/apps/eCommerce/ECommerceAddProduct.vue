@@ -9,17 +9,17 @@
 
 <template>
   <div id="user-add-tab-account">
-
+    <vx-card>
     <!-- Avatar Row -->
     <div class="vx-row">
       <div class="vx-col w-full">
         <div class="flex items-start flex-col sm:flex-row">
-          <img :src="avatar" class="mr-8 rounded h-24 w-24" />
+          <img :src="picture" class="mr-8 rounded h-24 w-24" />
 
           <div>
             <input v-validate="'required'" type="file" class="hidden" ref="update_avatar_input" @change="update_avatar" accept="image/*" name="avatar">
 
-            <vs-button class="mr-4 mb-4" @click="$refs.update_avatar_input.click()">Change Avatar</vs-button>
+            <vs-button class="mr-4 mb-4" @click="$refs.update_avatar_input.click()">Change Product Image</vs-button>
           </div>
         </div>
 
@@ -30,14 +30,14 @@
     <!-- Content Row -->
     <div class="vx-row">
       <div class="vx-col md:w-1/2 w-full">
-        <vs-input class="w-full mt-4" label="Username" icon-pack="feather" icon="icon-user" icon-no-border v-model="form.username" v-validate="'required|alpha_num'" name="username" />
-        <span class="text-danger text-sm"  v-show="errors.has('username')">{{ errors.first('username') }}</span>
+        <vs-input class="w-full mt-4" label="Name" v-model="form.name" v-validate="'required'" name="name" />
+        <span class="text-danger text-sm"  v-show="errors.has('name')">{{ errors.first('name') }}</span>
 
-        <vs-input class="w-full mt-4" label="Email" icon-pack="feather" icon="icon-mail" icon-no-border v-model="form.email" type="email" v-validate="'required|email'" name="email" />
-        <span class="text-danger text-sm"  v-show="errors.has('email')">{{ errors.first('email') }}</span>
+        <vs-input class="w-full mt-4" label="Stock" v-model="form.stock" v-validate="'required|integer'" name="stock" />
+        <span class="text-danger text-sm"  v-show="errors.has('stock')">{{ errors.first('stock') }}</span>
 
-        <vs-input type="password" label="Password" class="w-full mt-4" icon-pack="feather" icon="icon-lock" icon-no-border v-validate="'required|min:6'" v-model="form.password" name="password" />
-        <span class="text-danger text-sm"  v-show="errors.has('password')">{{ errors.first('password') }}</span>
+        <vs-input label="Price" class="w-full mt-4" v-validate="'required|integer'" v-model="form.price" name="price" />
+        <span class="text-danger text-sm"  v-show="errors.has('price')">{{ errors.first('price') }}</span>
       </div>
 
       <div class="vx-col md:w-1/2 w-full">
@@ -49,9 +49,8 @@
         </div>
 
         <div class="mt-4">
-          <label class="vs-input--label">Role</label>
-          <v-select v-model="selectedRole" :clearable="true" :options="roleOptions" v-validate="'required'" name="role" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-          <span class="text-danger text-sm"  v-show="errors.has('role')">{{ errors.first('role') }}</span>
+          <vs-input class="w-full mt-4" label="Discount Percentage" icon-pack="feather" icon="icon-percent" icon-after icon-no-border v-model="form.discount_percentage" v-validate="'required|integer'" name="discount percentage" />
+          <span class="text-danger text-sm"  v-show="errors.has('discount percentage')">{{ errors.first('discount percentage') }}</span>
         </div>
       </div>
     </div>
@@ -60,10 +59,13 @@
     <div class="vx-row">
       <div class="vx-col w-full">
         <div class="mt-8 flex flex-wrap items-center justify-end">
-          <vs-button class="ml-auto mt-2" @click="save_changes" :disabled="!validateForm">Next</vs-button>
+          <vs-button class="ml-auto mt-2" @click="save_changes" :disabled="!validateForm">Save</vs-button>
         </div>
       </div>
     </div>
+
+    </vx-card>
+
   </div>
 </template>
 
@@ -75,59 +77,31 @@ export default {
   components: {
     vSelect
   },
-  props: {
-    userForm: {
-        type: Object,
-        default: () => {},
-    },
-  },
   data() {
     return {
-        avatar: null,
+        picture: null,
         form: {
-            avatar: null,
-            username: null,
-            email: null,
-            password: null,
+            name: null,
+            price: null,
+            discount_percentage: null,
+            stock: null,
             status: null,
-            role_id: null,
+            picture: null,
         },
         statusOptions: [
-            { label: "Active",  value: true },
-            { label: "Deactivated",  value: false },
+            { label: "Available",  value: true },
+            { label: "Not Avaailable",  value: false },
         ],
-        roleOptions: [],
         errorMessage: {
             ext: '',
             size: '',
         },
-        selectedRole: null,
         selectedStatus: null,
     }
-  },
-  watch: {
-      userForm: {
-          deep: true,
-          handler() {
-            Object.assign(this.form, this.userForm)
-
-            if (!this.userForm.avatar) {
-                this.avatar = null
-            }
-          },
-      }
   },
   computed: {
     validateForm() {
       return !this.errors.any()
-    },
-
-    selectedRoleValue() {
-        if (this.selectedRole != null) {
-            return this.selectedRole.value
-        }
-
-        return null
     },
 
     selectedStatusValue() {
@@ -139,16 +113,9 @@ export default {
     },
   },
   watch: {
-    selectedRoleValue() {
-        this.form.role_id = this.selectedRoleValue
-    },
-
     selectedStatusValue() {
         this.form.status = this.selectedStatusValue
     },
-  },
-  mounted() {
-    this.fetchRoles();
   },
   methods: {
     capitalize(str) {
@@ -158,22 +125,31 @@ export default {
     save_changes() {
         this.$validator.validateAll().then(result => {
             if (result) {
-                this.$emit('setUserForm', this.form)
-                this.$emit('toStoreForm')
+               axios.post('api/v1/product/store', this.form).then(response => {
+                    this.reset_data()
+                    this.$vs.notify({
+                        title: 'Success',
+                        text: 'Create product success',
+                        color: 'success',
+                        iconPack: 'feather',
+                        icon: 'icon-check'
+                    })
+               })
             }
         })
     },
 
     reset_data() {
-      this.avatar = null
+      this.picture = null
       this.form = {
-        avatar: null,
-        username: null,
-        email: null,
-        password: null,
+        name: null,
+        picture: null,
+        price: null,
+        discount_percentage: null,
         status: null,
-        role_id: null,
+        stock: null,
       }
+      this.selectedStatus = null
     },
 
     update_avatar(event) {
@@ -183,17 +159,13 @@ export default {
       if (this.isValidExt(files) && this.isValidSize(files)) {
           const formData = new FormData()
 
-          formData.append('avatar', files)
+          formData.append('picture', files)
           formData.append('_method', 'POST')
 
-          axios.post('api/v1/user/upload/avatar', formData)
+          axios.post('api/v1/product/upload/picture', formData)
           .then(response => {
-              this.avatar = response.data.avatar_url
-              this.form.avatar = response.data.avatar_path
-
-              this.$nextTick(() => {
-                  this.$emit('setUserForm', this.form)
-              })
+              this.picture = response.data.picture_url
+              this.form.picture = response.data.picture_path
           })
       }
     },
@@ -224,13 +196,6 @@ export default {
 
       return isValid
     },
-
-    fetchRoles() {
-        axios.get('api/v1/roles')
-        .then(response => {
-            this.roleOptions = response.data.data
-        })
-    }
   },
 }
 </script>

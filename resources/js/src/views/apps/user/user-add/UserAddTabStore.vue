@@ -43,7 +43,6 @@
       <div class="vx-col w-full">
         <div class="mt-8 flex flex-wrap items-center justify-end">
           <vs-button class="ml-auto mt-2" @click="save_changes" :disabled="!validateForm">Save</vs-button>
-          <vs-button class="ml-4 mt-2" type="border" color="warning" @click="reset_data">Reset</vs-button>
         </div>
       </div>
     </div>
@@ -58,6 +57,12 @@ export default {
   components: {
     vSelect
   },
+  props: {
+    storeForm: {
+        type: Object,
+        default: () => {},
+    },
+  },
   data() {
     return {
         logo: null,
@@ -71,6 +76,18 @@ export default {
             address: null,
         },
     }
+  },
+  watch: {
+      storeForm: {
+          deep: true,
+          handler() {
+                Object.assign(this.form, this.storeForm)
+
+                if (!this.storeForm.logo) {
+                    this.logo = null
+                }
+          },
+      },
   },
   computed: {
     validateForm() {
@@ -87,7 +104,12 @@ export default {
     },
 
     save_changes() {
-        //
+        this.$validator.validateAll().then(result => {
+            if (result) {
+                this.$emit('setStoreForm', this.form)
+                this.$emit('save')
+            }
+        })
     },
 
     update_avatar(event) {

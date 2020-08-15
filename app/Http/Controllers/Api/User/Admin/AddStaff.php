@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\User;
+namespace App\Http\Controllers\Api\User\Admin;
 
 use App\Model\User;
 use Illuminate\Http\JsonResponse;
@@ -8,13 +8,14 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User as UserForm;
 
-class Store extends Controller
+class AddStaff extends Controller
 {
     public function __invoke(UserForm $request): JsonResponse
     {
-        $user = User::create([
+        User::create([
             'name' => $request->username,
             'email' => $request->email,
+            'store_id' => Auth()->user()->store->id,
             'password' => Hash::make($request->password),
             'role_id' => $request->role_id,
             'avatar' => $request->avatar,
@@ -22,7 +23,6 @@ class Store extends Controller
         ]);
 
         return response()->json([
-            'id' => $user->id,
             'message' => 'success'
         ]);
     }

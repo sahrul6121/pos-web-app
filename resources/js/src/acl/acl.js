@@ -16,7 +16,8 @@ export default new AclCreate({
   acceptLocalRules: true,
   globalRules: {
     superadmin: new AclRule("super-admin").generate(),
-    admin: new AclRule("admin").or("super-admin").generate(),
+    admin: new AclRule("admin").generate(),
+    staff: new AclRule("staff").generate(),
     public: new AclRule("staff").or("admin").or("super-admin").generate(),
   }
 })

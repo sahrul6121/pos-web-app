@@ -1,4 +1,4 @@
-<!-- =========================================================================================
+    <!-- =========================================================================================
 	File Name: ECommerceCheckout.vue
 	Description: eCommerce Checkout page
 	----------------------------------------------------------------------------------------
@@ -14,7 +14,8 @@
             color="rgba(var(--vs-primary), 1)"
             :title="null"
             :subtitle="null"
-            :hide-buttons="true">
+            :hide-buttons="true"
+        >
 
             <!-- tab 1 content -->
             <tab-content title="Cart" icon="feather icon-shopping-cart" class="mb-5">

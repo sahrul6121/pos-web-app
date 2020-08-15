@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Api\Store;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Logo as LogoForm;
+use Illuminate\Support\Facades\Storage;
 
 class UploadLogo extends Controller
 {
@@ -16,7 +17,7 @@ class UploadLogo extends Controller
     {
         $imageName = auth()->user()->name.Carbon::now()->format('dmY');
 
-        $hashedImageName = hash('sha256', $imageName);
+        $hashedImageName = Hash::make($imageName);
 
         $extension = $request->file('logo')->extension();
 

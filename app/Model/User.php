@@ -20,6 +20,7 @@ class User extends Authenticatable implements JWTSubject
         'id',
         'name',
         'email',
+        'store_id',
         'password',
         'role_id',
         'avatar',
@@ -75,12 +76,22 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(Role::class, 'id', 'role_id');
     }
 
+    /**
+     *  Get user store
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function store()
+    {
+        return $this->hasOne(Store::class, 'admin_id', 'id');
+    }
+
     public function getAvatarAttribute($value)
     {
         if (! $value) {
             return url('images/default-avatar.jpg');
         }
 
-        return Storage::url($value);
+        return url($value);
     }
 }

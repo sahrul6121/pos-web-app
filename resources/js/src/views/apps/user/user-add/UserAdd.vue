@@ -9,41 +9,51 @@
 
 <template>
     <div id="page-user-add">
-        <vx-card>
-            <div slot="no-body" class="tabs-container px-6 pt-6">
-                <vs-tabs v-model="activeTab" class="tab-action-btn-fill-conatiner">
-                    <vs-tab label="Account" icon-pack="feather" icon="icon-user">
-                        <div class="tab-text">
-                            <user-add-tab-account
-                                class="mt-4"
-                                @setUserForm="assignUserForm"
-                                @toStoreForm="toStoreForm"
-                            />
-                        </div>
-                    </vs-tab>
+        <form-wizard
+            ref="checkoutWizard"
+            color="rgba(var(--vs-primary), 1)"
+            :title="null"
+            :subtitle="null"
+            :hide-buttons="true"
+        >
+            <tab-content title="Account" icon="feather icon-user" class="mb-5">
+                <vx-card>
+                    <user-add-tab-account
+                        class="mt-4"
+                        :user-form="user_data"
+                        @setUserForm="assignUserForm"
+                        @toStoreForm="toStoreForm"
+                    />
+                </vx-card>
+            </tab-content>
 
-                    <vs-tab label="Store" :disabled="storeFormEnable" icon-pack="feather" icon="icon-shopping-cart">
-                        <div class="tab-text">
-                            <user-add-tab-store
-                                class="mt-4"
-                                @setStoreForm="assignStoreForm"
-                            />
-                        </div>
-                    </vs-tab>
-                </vs-tabs>
-            </div>
-        </vx-card>
+            <tab-content title="Store" icon="feather icon-shopping-cart" class="mb-5">
+                <vx-card>
+                    <user-add-tab-store
+                        class="mt-4"
+                        :store-form="store_data"
+                        @setStoreForm="assignStoreForm"
+                        @save="save"
+                    />
+                </vx-card>
+            </tab-content>
+        </form-wizard>
     </div>
 </template>
 
 <script>
-import UserAddTabAccount     from "./UserAddTabAccount.vue"
+import axios from '@/axios.js'
+import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+import { FormWizard, TabContent } from 'vue-form-wizard'
 import UserAddTabStore       from "./UserAddTabStore.vue"
+import UserAddTabAccount     from "./UserAddTabAccount.vue"
 
 export default {
     components: {
-        UserAddTabAccount,
+        TabContent,
+        FormWizard,
         UserAddTabStore,
+        UserAddTabAccount,
     },
     data() {
         return {
@@ -56,6 +66,7 @@ export default {
                 role_id: null,
             },
             store_data: {
+                admin_id: null,
                 logo: null,
                 name: null,
                 address: null,
@@ -77,8 +88,49 @@ export default {
         assignStoreForm(storeForm) {
             Object.assign(this.store_data, storeForm)
         },
+
         toStoreForm() {
-            this.activeTab = 1
+            this.$refs.checkoutWizard.nextTab()
+        },
+
+        save() {
+            axios.post('api/v1/user/store', this.user_data).then(response => {
+                this.store_data.admin_id = response.data.id
+
+                this.$nextTick(() => {
+                    axios.post('api/v1/store/store', this.store_data)
+                    .then(response => {
+                        this.$vs.notify({
+                            title: 'Success',
+                            text: 'Create user success',
+                            color: 'success',
+                            iconPack: 'feather',
+                            icon: 'icon-check'
+                        })
+                        this.$refs.checkoutWizard.prevTab()
+                        this.resetForm()
+                        this.$router.push('/apps/user/user-list')
+                    })
+                })
+            })
+        },
+
+        resetForm() {
+            this.user_data = {
+                avatar: null,
+                username: null,
+                email: null,
+                password: null,
+                status: null,
+                role_id: null,
+            }
+
+            this.store_data = {
+                admin_id: null,
+                logo: null,
+                name: null,
+                address: null,
+            }
         },
     },
 }

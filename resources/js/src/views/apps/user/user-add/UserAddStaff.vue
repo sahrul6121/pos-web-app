@@ -9,7 +9,7 @@
 
 <template>
   <div id="user-add-tab-account">
-
+    <vx-card>
     <!-- Avatar Row -->
     <div class="vx-row">
       <div class="vx-col w-full">
@@ -60,10 +60,13 @@
     <div class="vx-row">
       <div class="vx-col w-full">
         <div class="mt-8 flex flex-wrap items-center justify-end">
-          <vs-button class="ml-auto mt-2" @click="save_changes" :disabled="!validateForm">Next</vs-button>
+          <vs-button class="ml-auto mt-2" @click="save_changes" :disabled="!validateForm">Save</vs-button>
         </div>
       </div>
     </div>
+
+    </vx-card>
+
   </div>
 </template>
 
@@ -74,12 +77,6 @@ import vSelect from 'vue-select'
 export default {
   components: {
     vSelect
-  },
-  props: {
-    userForm: {
-        type: Object,
-        default: () => {},
-    },
   },
   data() {
     return {
@@ -104,18 +101,6 @@ export default {
         selectedRole: null,
         selectedStatus: null,
     }
-  },
-  watch: {
-      userForm: {
-          deep: true,
-          handler() {
-            Object.assign(this.form, this.userForm)
-
-            if (!this.userForm.avatar) {
-                this.avatar = null
-            }
-          },
-      }
   },
   computed: {
     validateForm() {
@@ -158,8 +143,16 @@ export default {
     save_changes() {
         this.$validator.validateAll().then(result => {
             if (result) {
-                this.$emit('setUserForm', this.form)
-                this.$emit('toStoreForm')
+               axios.post('api/v1/user/staff/store', this.form).then(response => {
+                   this.reset_data()
+                    this.$vs.notify({
+                        title: 'Success',
+                        text: 'Create user success',
+                        color: 'success',
+                        iconPack: 'feather',
+                        icon: 'icon-check'
+                    })
+               })
             }
         })
     },
@@ -174,6 +167,8 @@ export default {
         status: null,
         role_id: null,
       }
+      this.selectedRole = null
+      this.selectedStatus = null
     },
 
     update_avatar(event) {
